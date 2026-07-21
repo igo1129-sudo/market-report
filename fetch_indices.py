@@ -15,9 +15,15 @@ fetch_indices.py
 
 import json
 import sys
+import time
 from datetime import datetime, timezone, timedelta
 
 import yfinance as yf
+
+# 每次请求之间的间隔（秒），避免连续请求被 Yahoo 限流
+REQUEST_DELAY = 2.0
+# 单个指数抓取失败时的重试次数
+MAX_RETRIES = 3
 
 # ---------------------------------------------------------------------------
 # 指数清单：(显示名称, Yahoo Finance 代码)
@@ -73,18 +79,28 @@ NO_DECIMAL = {"^DJI", "^GSPC", "^IXIC", "^FCHI", "^GDAXI", "^FTSE", "^STI",
 
 
 def fetch_one(ticker: str):
-    """返回 (最新收盘价, 涨跌幅%, 是否成功, 错误信息)"""
-    try:
-        t = yf.Ticker(ticker)
-        hist = t.history(period="5d", interval="1d")
-        if hist.empty or len(hist) < 2:
-            return None, None, False, "历史数据不足（可能是节假日或代码错误）"
-        last_close = hist["Close"].iloc[-1]
-        prev_close = hist["Close"].iloc[-2]
-        pct = (last_close - prev_close) / prev_close * 100
-        return float(last_close), float(pct), True, None
-    except Exception as e:
-        return None, None, False, str(e)
+    """返回 (最新收盘价, 涨跌幅%, 是否成功, 错误信息)。
+    带重试和延迟，降低被 Yahoo Finance 限流的概率。"""
+    last_err = "未知错误"
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            t = yf.Ticker(ticker)
+            # 用10天窗口而不是5天，节假日较多时也能拿到至少2个交易日的数据
+            hist = t.history(period="10d", interval="1d")
+            if hist.empty or len(hist) < 2:
+                last_err = "历史数据不足（可能是节假日、代码错误，或被限流）"
+            else:
+                last_close = hist["Close"].iloc[-1]
+                prev_close = hist["Close"].iloc[-2]
+                pct = (last_close - prev_close) / prev_close * 100
+                return float(last_close), float(pct), True, None
+        except Exception as e:
+            last_err = str(e)
+
+        if attempt < MAX_RETRIES:
+            time.sleep(REQUEST_DELAY * attempt)  # 递增等待再重试
+
+    return None, None, False, last_err
 
 
 def fmt_value(ticker: str, value: float) -> str:
@@ -100,6 +116,7 @@ def build_report():
         g = {"title": group["title"], "bg": group["bg"], "items": []}
         for name, ticker in group["indices"]:
             value, pct, ok, err = fetch_one(ticker)
+            time.sleep(REQUEST_DELAY)  # 每个指数之间稍作停顿，降低被限流概率
             if ok:
                 g["items"].append({
                     "name": name, "ticker": ticker,
