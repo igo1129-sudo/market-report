@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>每日全球股指速览</title>
+<style>
+  body { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+         background:#fff; margin:0; padding:24px; color:#333; }
+  h1 { font-size:20px; margin-bottom:4px; }
+  .timestamp { color:#888; font-size:13px; margin-bottom:20px; }
+  .group { border-radius:6px; padding:14px 18px; margin-bottom:16px; }
+  .group-title { font-size:13px; color:#555; margin-bottom:8px; font-weight:bold; }
+  .row { display:flex; flex-wrap:wrap; gap:12px; }
+  .card { flex:1; min-width:160px; text-align:center; padding:8px 4px; }
+  .name { font-size:15px; font-weight:bold; color:#222; margin-bottom:6px; }
+  .pct { font-size:15px; font-weight:bold; }
+  .pct.up { color:#c0392b; }      /* 红涨 */
+  .pct.down { color:#2e7d32; }    /* 绿跌 */
+  .pct.na { color:#999; font-weight:normal; font-size:13px; }
+  .warning { background:#fff3cd; border:1px solid #ffe08a; padding:12px 16px;
+              border-radius:6px; font-size:13px; color:#7a5b00; margin-top:20px; }
+  .warning ul { margin:6px 0 0 18px; padding:0; }
+  .source-note { color:#aaa; font-size:11px; margin-top:24px; }
+</style>
+</head>
+<body>
+  <h1>每日全球主要股指速览</h1>
+  <div class="timestamp">数据生成时间（新加坡时间）：2026-07-21 17:33</div>
+  
+      <div class="group" style="background:#d9e6d3">
+        <div class="group-title">欧美主要指数</div>
+        <div class="row">
+        <div class="card">
+          <div class="name">道琼斯工业&nbsp;&nbsp;51,839</div>
+          <div class="value"><span class="pct down">-0.59%</span></div>
+        </div>
+        <div class="card">
+          <div class="name">标普500&nbsp;&nbsp;7,443</div>
+          <div class="value"><span class="pct down">-0.19%</span></div>
+        </div>
+        <div class="card">
+          <div class="name">纳斯达克综指&nbsp;&nbsp;25,508</div>
+          <div class="value"><span class="pct down">-0.05%</span></div>
+        </div>
+        <div class="card">
+          <div class="name">法国CAC40&nbsp;&nbsp;8,367</div>
+          <div class="value"><span class="pct up">+0.32%</span></div>
+        </div>
+        <div class="card">
+          <div class="name">德国DAX&nbsp;&nbsp;24,946</div>
+          <div class="value"><span class="pct up">+0.40%</span></div>
+        </div>
+        <div class="card">
+          <div class="name">英国富时100&nbsp;&nbsp;10,558</div>
+          <div class="value"><span class="pct up">+0.32%</span></div>
+        </div></div>
+      </div>
+      <div class="group" style="background:#f6ded0">
+        <div class="group-title">新加坡</div>
+        <div class="row">
+        <div class="card">
+          <div class="name">新加坡海峡指数&nbsp;&nbsp;5,524</div>
+          <div class="value"><span class="pct up">+0.45%</span></div>
+        </div></div>
+      </div>
+      <div class="group" style="background:#f6ded0">
+        <div class="group-title">港股</div>
+        <div class="row">
+        <div class="card">
+          <div class="name">恒生指数&nbsp;&nbsp;25,132</div>
+          <div class="value"><span class="pct down">-0.04%</span></div>
+        </div>
+        <div class="card">
+          <div class="name">恒生国企&nbsp;&nbsp;8,361</div>
+          <div class="value"><span class="pct down">-0.25%</span></div>
+        </div>
+        <div class="card">
+          <div class="name">恒生科技&nbsp;&nbsp;N/A</div>
+          <div class="value"><span class="pct na">数据缺失</span></div>
+        </div></div>
+      </div>
+      <div class="group" style="background:#d9e6d3">
+        <div class="group-title">A股</div>
+        <div class="row">
+        <div class="card">
+          <div class="name">上证指数&nbsp;&nbsp;3,864</div>
+          <div class="value"><span class="pct up">+1.79%</span></div>
+        </div>
+        <div class="card">
+          <div class="name">深证成指&nbsp;&nbsp;14,264</div>
+          <div class="value"><span class="pct up">+4.81%</span></div>
+        </div>
+        <div class="card">
+          <div class="name">沪深300&nbsp;&nbsp;4,739</div>
+          <div class="value"><span class="pct up">+4.64%</span></div>
+        </div>
+        <div class="card">
+          <div class="name">中证500&nbsp;&nbsp;N/A</div>
+          <div class="value"><span class="pct na">数据缺失</span></div>
+        </div>
+        <div class="card">
+          <div class="name">创业板指&nbsp;&nbsp;N/A</div>
+          <div class="value"><span class="pct na">数据缺失</span></div>
+        </div>
+        <div class="card">
+          <div class="name">科创50&nbsp;&nbsp;N/A</div>
+          <div class="value"><span class="pct na">数据缺失</span></div>
+        </div></div>
+      </div>
+  
+      <div class="warning">
+        <strong>⚠️ 以下指数抓取失败，请人工核实：</strong>
+        <ul><li>恒生科技 (HSTECH.HK): 历史数据不足（可能是节假日或代码错误）</li><li>中证500 (000905.SS): 历史数据不足（可能是节假日或代码错误）</li><li>创业板指 (399006.SZ): 历史数据不足（可能是节假日或代码错误）</li><li>科创50 (000688.SS): 历史数据不足（可能是节假日或代码错误）</li></ul>
+      </div>
+  <div class="source-note">数据来源：Yahoo Finance（免费公开数据，可能有数分钟延迟，仅供参考，不构成投资建议）</div>
+</body>
+</html>
